@@ -14,15 +14,7 @@ export default async ({ req, res, log, error }) => {
     const users = new Users(client);
     */
 
-    try
-    {
-        const userId = res.variables['APPWRITE_FUNCTION_USER_ID'];
-        log(userId);
-    }
-    catch(err)
-    {
-        error(err);
-    }
+    log(req.headers);
 
     return res.json({
         status: "Success"
