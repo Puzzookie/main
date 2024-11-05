@@ -14,14 +14,14 @@ export default async ({ req, res, log, error }) => {
     const users = new Users(client);
     */
 
-    const userId = res.variables['APPWRITE_FUNCTION_USER_ID'];
-    if(userId)
+    try
     {
+        const userId = res.variables['APPWRITE_FUNCTION_USER_ID'];
         log(userId);
     }
-    else
+    catch(err)
     {
-        log("Unauthenticated");
+        error(err);
     }
 
     return res.json({
