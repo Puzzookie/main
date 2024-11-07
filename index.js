@@ -16,6 +16,8 @@ export default async ({ req, res, log, error }) => {
 
     log(req.headers);
 
+    log(req.headers['x-appwrite-user-id']);
+
     return res.json({
         status: "Success"
     });
