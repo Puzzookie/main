@@ -36,7 +36,7 @@ export default async ({ req, res, log, error }) => {
         if(text === "true")
         {
             const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.delete(Role.user(userId)) ]);
-            const createUserIdPostsCollection = await databases.createCollection(
+            const createUserIdPostsCollection = await db.createCollection(
                 'db', // databaseId
                 userId + "-posts", // collectionId
                 userId + "-posts", // name
@@ -44,7 +44,7 @@ export default async ({ req, res, log, error }) => {
                 false, // documentSecurity (optional)
                 true // enabled (optional)
             );
-            const createUserIdFollowingCollection = await databases.createCollection(
+            const createUserIdFollowingCollection = await db.createCollection(
                 'db', // databaseId
                 userId + "-following", // collectionId
                 userId + "-following", // name
