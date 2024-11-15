@@ -32,7 +32,9 @@ export default async ({ req, res, log, error }) => {
         {
             text = "false";
         }
-        
+
+        log(text);
+      
         if(text === "true")
         {
             const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.delete(Role.user(userId)) ]);
