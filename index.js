@@ -25,7 +25,7 @@ export default async ({ req, res, log, error }) => {
     if(event === "users." + userId + ".create")
     {      
         
-        const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Please determine if the following username would be appropriate for an LDS testimony website, considering factors such as respect, relevance to LDS teachings, and appropriateness in a religious context. The username is: " + userId);
+        const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Please determine if the following username is appropriate (does not contain any profanity or swear words, hidden or obvious) The username is: " + userId);
         log(response);
         let text = response.response.candidates[0].content.parts[0].text.toString().trim();
 
