@@ -25,7 +25,7 @@ export default async ({ req, res, log, error }) => {
     if(event === "users." + userId + ".create")
     {      
         
-        const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Is the username " + userId + " appropriate for an LDS testimony website?");
+        const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Is the sky blue?");
         log(response);
         let text = response.response.candidates[0].content.parts[0].text;
 
