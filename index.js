@@ -27,7 +27,7 @@ export default async ({ req, res, log, error }) => {
         
         const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Please determine if the following username would be appropriate for an LDS testimony website, considering factors such as respect, relevance to LDS teachings, and appropriateness in a religious context. The username is: " + userId);
         log(response);
-        let text = response.response.candidates[0].content.parts[0].text;
+        let text = response.response.candidates[0].content.parts[0].text.toString().trim();
 
         if(userId.toString().length < 5 || userId.toString().length > 25)
         {
@@ -38,6 +38,7 @@ export default async ({ req, res, log, error }) => {
       
         if(text === "true")
         {
+          log("It's true homie");
             const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.delete(Role.user(userId)) ]);
             
             const createUserIdPostsCollection = await db.createCollection(
@@ -91,6 +92,7 @@ export default async ({ req, res, log, error }) => {
         }
         else
         {
+          log("Not true homie");
             const deleteAccount = await users.delete(userId);
         }
     }
