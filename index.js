@@ -27,10 +27,9 @@ export default async ({ req, res, log, error }) => {
         
         const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Is the following post appropriate to general community guidelines? The username is: " + userId);
         log(response);
-        log(response?.response?.candidates?.[0]?.content?.parts?.[0]?.text);
-        let text = (response?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "false").trim();
-      
-        if(userId.length < 5 || userId.length > 25)
+        let text = response.response.candidates[0].content.parts[0].text;
+
+        if(userId.toString().length < 5 || userId.toString().length > 25)
         {
             text = "false";
         }
