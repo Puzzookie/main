@@ -38,7 +38,7 @@ export default async ({ req, res, log, error }) => {
       
         if(text === "true")
         {
-            const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.delete(Role.user(userId)) ]);
+            const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.read(Role.user(userId)), Permission.delete(Role.user(userId)) ]);
             
             const createUserIdPostsCollection = await db.createCollection(
                 'db', // databaseId
