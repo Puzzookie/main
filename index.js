@@ -74,6 +74,13 @@ export default async ({ req, res, log, error }) => {
                 2048, // size
                 true, // required
             );
+
+           const createAddedBooleanAttribute = await db.createBooleanAttribute(
+                'db', // databaseId
+                userId + "-posts", // collectionId
+                'approved', // key
+                true, // required
+            );
           
             const createUserIdFollowingCollection = await db.createCollection(
                 'db', // databaseId
@@ -110,6 +117,7 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event.startsWith("databases.db.collections." + userId + "-posts.documents.") && event.endsWith(".create"))
     {
+        log(userId + " created a new post");
         //Add this post to the userDoc in "users" collection
         /*
         const { postTitleToAdd, postToAdd, postId } = req.body;
@@ -139,7 +147,11 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event.startsWith("databases.db.collections." + userId + "-posts.documents.") && event.endsWith(".delete"))
     {
-
+        log(userId + " deleted a post");
+    }
+    else if(event.startsWith("databases.db.collections." + userId + "-posts.documents.") && event.endsWith(".update"))
+    {
+        log(userId + " updated a post");
     }
   } 
   catch(err) 
