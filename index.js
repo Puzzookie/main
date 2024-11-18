@@ -96,11 +96,11 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event === "databases.db.collections.users.documents." + userId + ".delete")
     {
-        const deleteUserIdPostsCollection = await databases.deleteCollection(
+        const deleteUserIdPostsCollection = await db.deleteCollection(
             'db', // databaseId
             userId + "-posts", // collectionId
         );
-        const deleteUserIdFollowingCollection = await databases.deleteCollection(
+        const deleteUserIdFollowingCollection = await db.deleteCollection(
             'db', // databaseId
             userId + "-following", // collectionId
         );
