@@ -38,7 +38,6 @@ export default async ({ req, res, log, error }) => {
       
         if(text === "true")
         {
-          log("It's true homie");
             const createUserDoc = await db.createDocument('db', 'users', userId, { lastPostId: "null", lastPostTitle: "null", lastPostBody: "null" }, [ Permission.delete(Role.user(userId)) ]);
             
             const createUserIdPostsCollection = await db.createCollection(
@@ -92,7 +91,6 @@ export default async ({ req, res, log, error }) => {
         }
         else
         {
-          log("Not true homie");
             const deleteAccount = await users.delete(userId);
         }
     }
