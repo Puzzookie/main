@@ -75,7 +75,7 @@ export default async ({ req, res, log, error }) => {
                 true, // required
             );
 
-           const createAddedBooleanAttribute = await db.createBooleanAttribute(
+           const createApprovedBooleanAttribute = await db.createBooleanAttribute(
                 'db', // databaseId
                 userId + "-posts", // collectionId
                 'approved', // key
