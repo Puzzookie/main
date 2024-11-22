@@ -145,10 +145,6 @@ export default async ({ req, res, log, error }) => {
         }
         */
     }
-    else if(event.startsWith("databases.db.collections." + userId + "-posts.documents.") && event.endsWith(".delete"))
-    {
-        log(userId + " deleted a post");
-    }
     else if(event.startsWith("databases.db.collections." + userId + "-posts.documents.") && event.endsWith(".update"))
     {
         log(userId + " updated a post");
