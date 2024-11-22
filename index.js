@@ -21,6 +21,7 @@ export default async ({ req, res, log, error }) => {
     
     log(userId);
     log(event);
+    log(req.headers);
     
     if(event === "users." + userId + ".create")
     {      
