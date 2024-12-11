@@ -48,11 +48,6 @@ export default async ({ req, res, log, error }) => {
 
       let text = result.response.text();
       log(text);
-        //const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Does the following username not contain any profanity or swear words, whether hidden or obvious? The username is: " + userId);
-        //log(response);
-        //let text = response.response.candidates[0].content.parts[0].text.toString().trim();
-
-        let text = "true";
       
         if(userId.toString().length < 5 || userId.toString().length > 25)
         {
