@@ -1,32 +1,6 @@
 import { Client, Account, Databases, Users, Permission, Role, Query, ID } from 'node-appwrite';
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
-
-async function run() {
-  const chatSession = model.startChat({
-    generationConfig,
-    history: [
-    ],
-  });
-
-  const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
-  console.log(result.response.text());
-}
-
-run();
-
-
-
-
-
-
-
-
-
-
-
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export default async ({ req, res, log, error }) => {
   
   const client = new Client()
