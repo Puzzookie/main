@@ -1,4 +1,30 @@
 import { Client, Account, Databases, Users, Permission, Role, Query, ID } from 'node-appwrite';
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+
+
+async function run() {
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [
+    ],
+  });
+
+  const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
+  console.log(result.response.text());
+}
+
+run();
+
+
+
+
+
+
+
+
+
+
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async ({ req, res, log, error }) => {
@@ -12,8 +38,20 @@ export default async ({ req, res, log, error }) => {
   const db = new Databases(client);
   const users = new Users(client);
 
-  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const apiKey = process.env.GEMINI_API_KEY;
+  const genAI = new GoogleGenerativeAI(apiKey);
+  
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash-exp",
+  });
+  
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
 
   try {
     const userId = req.headers['x-appwrite-user-id'];
@@ -26,7 +64,16 @@ export default async ({ req, res, log, error }) => {
     
     if(event === "users." + userId + ".create")
     {      
-        
+      const chatSession = model.startChat({
+        generationConfig,
+        history: [
+        ],
+      });
+
+      const result = await chatSession.sendMessage("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Does the following username not contain any profanity or swear words, whether hidden or obvious? The username is: " + userId);
+
+      let text = result.response.text();
+      log(text);
         //const response = await model.generateContent("Your response to this question will be recorded as a bool value, so it's imperative that you only respond with true or false and nothing else. Does the following username not contain any profanity or swear words, whether hidden or obvious? The username is: " + userId);
         //log(response);
         //let text = response.response.candidates[0].content.parts[0].text.toString().trim();
