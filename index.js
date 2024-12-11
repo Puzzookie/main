@@ -53,6 +53,7 @@ export default async ({ req, res, log, error }) => {
         {
             text = "false";
         }
+      
 
         log(text);
       
