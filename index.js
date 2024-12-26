@@ -8,9 +8,9 @@ export default async ({ req, res, log, error }) => {
   
       return res.json({
         motto: "Build like a team of hundreds",
-      }).setHeader('Access-Control-Allow-Origin', 'https://9000-idx-puzzookie-1734639166692.cluster-pb4ljhlmg5hqsxnzpc56r3prxw.cloudworkstations.dev/'); 
+      }); 
   }
-
+  
   /*
   
   const client = new Client()
