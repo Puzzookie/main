@@ -5,14 +5,17 @@ export default async ({ req, res, log, error }) => {
 
   if (req.path === "/") 
   {
-  
-      return res.json({
-        motto: "Build like a team of hundreds",
-      }); 
+    try {
+        return res.json({ ok: true }, 200, {
+          'Access-Control-Allow-Origin': 'https://9000-idx-puzzookie-1734639166692.cluster-pb4ljhlmg5hqsxnzpc56r3prxw.cloudworkstations.dev/E',
+        });
+      } 
+    catch (err) {
+        error(err);
+      }
   }
   
   /*
-  
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
@@ -182,8 +185,7 @@ export default async ({ req, res, log, error }) => {
   catch(err) 
   {
     error(err);
-  }
-*/
+  }*/
 
   return res.json({
     status: "Success"
