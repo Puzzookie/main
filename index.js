@@ -7,8 +7,9 @@ export default async ({ req, res, log, error }) => {
   {
     try {
         return res.json({ ok: true }, 200, {
-          'Access-Control-Allow-Origin': 'https://9000-idx-puzzookie-1734639166692.cluster-pb4ljhlmg5hqsxnzpc56r3prxw.cloudworkstations.dev/E',
+          'Access-Control-Allow-Origin': 'https://9000-idx-puzzookie-1734639166692.cluster-pb4ljhlmg5hqsxnzpc56r3prxw.cloudworkstations.dev/',
         });
+  
       } 
     catch (err) {
         error(err);
