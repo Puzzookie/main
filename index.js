@@ -6,7 +6,7 @@ export default async ({ req, res, log, error }) => {
   if (req.path === "/") 
   {
     try {
-        log(req);
+        log(req.method);
         return res.json({ ok: true }, 200, {
           'Access-Control-Allow-Origin': '*',
         });
