@@ -2,14 +2,13 @@ import { Client, Account, Databases, Users, Permission, Role, Query, ID } from '
 //import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
 export default async ({ req, res, log, error }) => {
+  res.header('Access-Control-Allow-Origin', 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev');
 
   if (req.path === "/") 
   {
     try {
       
-        return res.json({ ok: true }, 200, {
-          'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
-        });
+        return res.json({ ok: true });
       } 
     catch (err) {
         error(err);
