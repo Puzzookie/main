@@ -9,9 +9,7 @@ export default async ({ req, res, log, error }) => {
       
         return res.json({ status: true }, 200, {
           'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Appwrite-Key'
+          'Access-Control-Allow-Credentials': true,
         });     
     } 
     catch (err) {
