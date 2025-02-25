@@ -46,6 +46,7 @@ export default async ({ req, res, log, error }) => {
     {
         try
         {
+            log(req.cookies.session);
             sessionClient.setSession(req.cookies.session);
         
             // Now, you can make authenticated requests to the Appwrite API
