@@ -44,27 +44,27 @@ export default async ({ req, res, log, error }) => {
 
     if(req.path === "/user")
     {
-        // If the session cookie is not present, return an error
-        if (!req.cookies.session) {
-
-            return res.json({ success: false, error: 'Unauthorized' }, 401, {
-              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
-            });
+        try
+        {
+            sessionClient.setSession(req.cookies.session);
         
-        }
-
-        sessionClient.setSession(req.cookies.session);
+            // Now, you can make authenticated requests to the Appwrite API
+            const account = new Account(sessionClient);
+            try {
+                const user = await account.get();
     
-        // Now, you can make authenticated requests to the Appwrite API
-        const account = new Account(sessionClient);
-        try {
-            const user = await account.get();
-
-             return res.json({ success: true, user }, 200, {
-              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
-            }); 
-        } catch (e) {
-            return res.json({ success: false, error: e.message }, 400, {
+                 return res.json({ success: true, user }, 200, {
+                  'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+                }); 
+            } catch (e) {
+                return res.json({ success: false, error: e.message }, 400, {
+                  'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+                });
+            }
+        }
+        catch(e)
+        {
+             return res.json({ success: false, error: e.message }, 400, {
               'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
             });
         }
