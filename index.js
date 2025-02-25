@@ -64,7 +64,7 @@ export default async ({ req, res, log, error }) => {
         }
         catch(e)
         {
-             return res.json({ success: false, error: e.message }, 400, {
+             return res.json({ success: false, error: e.message }, 401, {
               'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
             });
         }
