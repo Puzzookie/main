@@ -13,51 +13,51 @@ export default async ({ req, res, log, error }) => {
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
 
 
-  app.post('/login', async (req, res) => {
-    // Get email and password from request
-    const { email, password } = req.body;
+    if(req.path === "/login")
+    {
+        const { email, password } = req.body;
 
-    const account = new Account(adminClient);
-
-    try {
-        // Create the session using the Appwrite client
-        const session = await account.createEmailPasswordSession(email, password);
-
-        // Set the session cookie
-        res.cookie('session', session.secret, { // use the session secret as the cookie value
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            expires: new Date(session.expire),
-            path: '/',
-        });
-
-        res.status(200).json({ success: true });
-    } catch (e) {
-        res.status(400).json({ success: false, error: e.message });
-    }
-});
-
-app.get('/user', async (req, res) => {
-    // If the session cookie is not present, return an error
-    if (!req.cookies.session) {
-        return res.status(401).json({ success: false, error: 'Unauthorized' });
+        const account = new Account(adminClient);
+    
+        try {
+            // Create the session using the Appwrite client
+            const session = await account.createEmailPasswordSession(email, password);
+    
+            // Set the session cookie
+            res.cookie('session', session.secret, { // use the session secret as the cookie value
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+                expires: new Date(session.expire),
+                path: '/',
+            });
+    
+            res.status(200).json({ success: true });
+        } catch (e) {
+            res.status(400).json({ success: false, error: e.message });
+        }
     }
 
-    // Pass the session cookie to the Appwrite client
-    sessionClient.setSession(req.cookies.session);
-
-    // Now, you can make authenticated requests to the Appwrite API
-    const account = new Account(sessionClient);
-    try {
-        const user = await account.get();
-
-        res.status(200).json({ success: true, user });
-    } catch (e) {
-        res.status(400).json({ success: false, error: e.message });
+    if(req.path === "/user")
+    {
+        // If the session cookie is not present, return an error
+        if (!req.cookies.session) {
+            return res.status(401).json({ success: false, error: 'Unauthorized' });
+        }
+    
+        // Pass the session cookie to the Appwrite client
+        sessionClient.setSession(req.cookies.session);
+    
+        // Now, you can make authenticated requests to the Appwrite API
+        const account = new Account(sessionClient);
+        try {
+            const user = await account.get();
+    
+            res.status(200).json({ success: true, user });
+        } catch (e) {
+            res.status(400).json({ success: false, error: e.message });
+        }
     }
-});
-
   /*
   
   if (req.path === "/") 
