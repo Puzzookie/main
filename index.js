@@ -12,11 +12,6 @@ export default async ({ req, res, log, error }) => {
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
 
-    const session = req.cookies.session;
-    if (session) {
-        sessionClient.setSession(session);
-    }
-
 
   app.post('/login', async (req, res) => {
     // Get email and password from request
@@ -44,16 +39,13 @@ export default async ({ req, res, log, error }) => {
 });
 
 app.get('/user', async (req, res) => {
-    // First, read the session cookie from the request
-    const session = req.cookies.session;
-
     // If the session cookie is not present, return an error
-    if (!session) {
+    if (!req.cookies.session) {
         return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
     // Pass the session cookie to the Appwrite client
-    sessionClient.setSession(session);
+    sessionClient.setSession(req.cookies.session);
 
     // Now, you can make authenticated requests to the Appwrite API
     const account = new Account(sessionClient);
