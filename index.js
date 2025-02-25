@@ -32,9 +32,13 @@ export default async ({ req, res, log, error }) => {
                 path: '/',
             });
     
-            res.status(200).json({ success: true });
+             return res.json({ success: true }, 200, {
+              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+            }); 
         } catch (e) {
-            res.status(400).json({ success: false, error: e.message });
+             return res.json({ success: false, error: e.message }, 400, {
+              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+            });
         }
     }
 
@@ -42,20 +46,25 @@ export default async ({ req, res, log, error }) => {
     {
         // If the session cookie is not present, return an error
         if (!req.cookies.session) {
-            return res.status(401).json({ success: false, error: 'Unauthorized' });
+            return res.json({ success: false, error: 'Unauthorized' , 401, {
+              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+            });
         }
-    
-        // Pass the session cookie to the Appwrite client
+
         sessionClient.setSession(req.cookies.session);
     
         // Now, you can make authenticated requests to the Appwrite API
         const account = new Account(sessionClient);
         try {
             const user = await account.get();
-    
-            res.status(200).json({ success: true, user });
+
+             return res.json({ success: true, user }, 200, {
+              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+            }); 
         } catch (e) {
-            res.status(400).json({ success: false, error: e.message });
+            return res.json({ success: false, error: e.message }, 400, {
+              'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
+            });
         }
     }
   /*
