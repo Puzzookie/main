@@ -10,7 +10,7 @@ export default async ({ req, res, log, error }) => {
 
     const sessionClient = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
-    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
 
 
   app.post('/login', async (req, res) => {
