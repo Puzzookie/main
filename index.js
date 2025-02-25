@@ -3,6 +3,71 @@ import { Client, Account, Databases, Users, Permission, Role, Query, ID } from '
 
 export default async ({ req, res, log, error }) => {
 
+    const adminClient = new Client()
+    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+    .setKey(process.env.APPWRITE_API_KEY);
+
+    const sessionClient = new Client()
+    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+
+    const session = req.cookies.session;
+    if (session) {
+        sessionClient.setSession(session);
+    }
+
+
+  app.post('/login', async (req, res) => {
+    // Get email and password from request
+    const { email, password } = req.body;
+
+    const account = new Account(adminClient);
+
+    try {
+        // Create the session using the Appwrite client
+        const session = await account.createEmailPasswordSession(email, password);
+
+        // Set the session cookie
+        res.cookie('session', session.secret, { // use the session secret as the cookie value
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            expires: new Date(session.expire),
+            path: '/',
+        });
+
+        res.status(200).json({ success: true });
+    } catch (e) {
+        res.status(400).json({ success: false, error: e.message });
+    }
+});
+
+app.get('/user', async (req, res) => {
+    // First, read the session cookie from the request
+    const session = req.cookies.session;
+
+    // If the session cookie is not present, return an error
+    if (!session) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+
+    // Pass the session cookie to the Appwrite client
+    sessionClient.setSession(session);
+
+    // Now, you can make authenticated requests to the Appwrite API
+    const account = new Account(sessionClient);
+    try {
+        const user = await account.get();
+
+        res.status(200).json({ success: true, user });
+    } catch (e) {
+        res.status(400).json({ success: false, error: e.message });
+    }
+});
+
+  /*
+  
   if (req.path === "/") 
   {
     try {
@@ -26,12 +91,8 @@ export default async ({ req, res, log, error }) => {
       }
   }
   
-  /*
-  const client = new Client()
-    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
-    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    .setKey(process.env.APPWRITE_API_KEY);
   
+
   const account = new Account(client);
   const db = new Databases(client);
   const users = new Users(client);
