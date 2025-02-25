@@ -6,7 +6,15 @@ export default async ({ req, res, log, error }) => {
   if (req.path === "/") 
   {
     try {
-      
+          const session = req.cookies.session;
+      if(session)
+      {
+                return res.json({ status: session }, 200, {
+          'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
+          'Access-Control-Allow-Credentials': true,
+        });   
+      }
+
         return res.json({ status: true }, 200, {
           'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
           'Access-Control-Allow-Credentials': true,
