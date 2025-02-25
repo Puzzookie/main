@@ -9,6 +9,7 @@ export default async ({ req, res, log, error }) => {
           const session = req.cookies.session;
       if(session)
       {
+        log(session);
                 return res.json({ status: session }, 200, {
           'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
           'Access-Control-Allow-Credentials': true,
