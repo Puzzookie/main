@@ -46,9 +46,11 @@ export default async ({ req, res, log, error }) => {
     {
         // If the session cookie is not present, return an error
         if (!req.cookies.session) {
-            return res.json({ success: false, error: 'Unauthorized' , 401, {
+
+            return res.json({ success: false, error: 'Unauthorized' }, 401, {
               'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev'
             });
+        
         }
 
         sessionClient.setSession(req.cookies.session);
