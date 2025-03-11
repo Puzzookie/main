@@ -6,7 +6,5 @@ export default async ({ req, res, log, error }) => {
   {
     log(req.headers);
   }
-  return res.json({ status: "other" }, 200, {
-      'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
-    });   
+  return res.json({ status: "other" });
 };
