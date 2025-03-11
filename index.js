@@ -5,7 +5,7 @@ export default async ({ req, res, log, error }) => {
   if (req.path === "/") 
   {
     try {
-        return res.json({ status: true }, 200, {
+        return res.json({ req.headers }, 200, {
           'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
         });     
     } 
@@ -16,7 +16,7 @@ export default async ({ req, res, log, error }) => {
         error(err);
       }
   }
-  return res.json({
-    status: "Success"
-  });
+  return res.json({ status: "other" }, 200, {
+      'Access-Control-Allow-Origin': 'https://9000-idx-lds-1737864063978.cluster-aj77uug3sjd4iut4ev6a4jbtf2.cloudworkstations.dev',
+    });   
 };
