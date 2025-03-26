@@ -9,38 +9,45 @@ export default async ({ req, res, log, error }) => {
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
        .setKey(req.headers['x-appwrite-key'] ?? '');
-
-    const event = req.headers['x-appwrite-event'];
-    log(event);
-    let sessionId = "";
     
+    const event = req.headers['x-appwrite-event'];
+    
+    let sessionId = "";
     if(req.body.$id)
     {
       sessionId = req.body.$id;
-    };
-
-    //const session = req.headers[
+    }
+    
     if(event === "users." + userId + ".create")
     {
+        //create a collection for userId
+        //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
+        //create a document to store the latest post of each user
         log("New user created");
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
     {
-        log("New session created");
-        const googleToken = req.body.providerAccessToken;
-        log(googleToken);
+       const googleToken = req.body.providerAccessToken;
       
        try {
         const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${googleToken}`, {
           method: 'GET'
         });
         const data = await response.json();
-        log(data);
-        log(data.picture);
-      } catch (error) {
-        error('Error fetching user info:', error);
+        log(userId);
+        log(data.name);
+        log(data.picture.split("=").slice(0, -1).join("="));
+
+        //update document with their name, picture, userId that's in the users collection
+        
+      } catch (err) {
+        error('Error fetching user info:' + err);
       }
 
+    }
+    else
+    {
+        //Gemini implementation to check to see if the post is good
     }
   }
   return res.json({ status: "complete" });
