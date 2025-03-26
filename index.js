@@ -1,4 +1,5 @@
 import { Client, Account, Databases, Users, Permission, Role, Query, ID } from 'node-appwrite';
+import axios from 'axios';
 
 export default async ({ req, res, log, error }) => {
 
@@ -29,16 +30,15 @@ export default async ({ req, res, log, error }) => {
         log("New session created");
         const googleToken = req.body.providerAccessToken;
         log(googleToken);
-        fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${googleToken}`, {
-          method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
-          log(data.picture);
+      
+        axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${googleToken}`)
+        .then(response => {
+          log(response.data.picture);
         })
         .catch(error => {
           error('Error fetching user info:', error);
         });
+
     }
   }
   return res.json({ status: "complete" });
