@@ -12,7 +12,6 @@ export default async ({ req, res, log, error }) => {
 
     const event = req.headers['x-appwrite-event'];
     log(event);
-    log(req.body.$id);
     let sessionId = "";
     
     if(req.body.$id)
@@ -27,7 +26,9 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
     {
+        log("New session created");
         const googleToken = req.body.providerAccessToken;
+        log(googleToken);
         fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${googleToken}`, {
           method: 'GET'
         })
