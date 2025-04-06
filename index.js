@@ -41,7 +41,7 @@ export default async ({ req, res, log, error }) => {
         log(userId);
         log(data.name);
         log(data.picture.split("=").slice(0, -1).join("="));
-        const updateUserDoc = await db.updateDocument('db', 'user', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.delete(Role.user(userId)) ]);
+        const updateUserDoc = await db.updateDocument('db', 'user', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.read(Role.any()), Permission.delete(Role.user(userId)) ]);
 
         //update document with their name, picture, userId that's in the users collection
         
