@@ -22,7 +22,7 @@ export default async ({ req, res, log, error }) => {
     
     if(event === "users." + userId + ".create")
     {
-        let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "null"}, [ Permission.delete(Role.any()) ]);
+        let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "null"}, [ Permission.delete(Role.user(userId)) ]);
       
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
