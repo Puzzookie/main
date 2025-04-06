@@ -26,7 +26,7 @@ export default async ({ req, res, log, error }) => {
         //create a collection for userId
         //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
         //create a document to store the latest post of each user
-        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ Permission.read(Role.any()), Permission.update(Role.label('admin')), Permission.delete(Role.user(userId)) ]);
+        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, []);
         log("New user created");
       
     }
