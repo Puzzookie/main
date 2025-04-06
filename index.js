@@ -22,6 +22,7 @@ export default async ({ req, res, log, error }) => {
     
     if(event === "users." + userId + ".create")
     {
+        log(userId);
         log(req.body);
         //create a collection for userId
         //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
