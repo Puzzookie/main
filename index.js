@@ -5,6 +5,7 @@ export default async ({ req, res, log, error }) => {
   if (req.path === "/") 
   {
     const userId = req.headers['x-appwrite-user-id'];
+    
     const client = new Client()
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
@@ -25,12 +26,13 @@ export default async ({ req, res, log, error }) => {
         //create a collection for userId
         //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
         //create a document to store the latest post of each user
-        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ Permission.read(Role.any()), Permission.delete(Role.user(userId)) ]);
+        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ Permission.read(Role.any()), Permission.update(Role.label('admin')), Permission.delete(Role.user(userId)) ]);
         log("New user created");
       
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
     {
+      /*
        const googleToken = req.body.providerAccessToken;
       
        try {
@@ -48,6 +50,7 @@ export default async ({ req, res, log, error }) => {
       } catch (err) {
         error('Error fetching user info:' + err);
       }
+      */
 
     }
     else
