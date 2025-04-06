@@ -9,7 +9,7 @@ export default async ({ req, res, log, error }) => {
     const client = new Client()
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-       .setKey(process.env.APPWRITE_API_KEY);
+       .setKey(req.headers['x-appwrite-key'] ?? '');
     
     const db = new Databases(client);
     const event = req.headers['x-appwrite-event'];
@@ -23,17 +23,12 @@ export default async ({ req, res, log, error }) => {
     if(event === "users." + userId + ".create")
     {
         log(userId);
+        log(userId.toString());
         log(req.body);
         //create a collection for userId
         //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
         //create a document to store the latest post of each user
-        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ 
-          Permission.read(Role.user(userId)),    // Allow the user to read the document
-          Permission.update(Role.user(userId)),  // Allow the user to update the document
-          Permission.delete(Role.user(userId)),  // Allow the user to delete the document
-          Permission.read(Role.any())     
-        ]);
-        log("New user created");
+        let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "null"}, [ Permission.delete(Role.user(userId)) ]);
       
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
