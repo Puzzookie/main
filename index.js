@@ -9,6 +9,7 @@ export default async ({ req, res, log, error }) => {
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
        .setKey(process.env.APPWRITE_API_KEY);
+    
     const db = new Databases(client);
     const event = req.headers['x-appwrite-event'];
     
@@ -24,7 +25,7 @@ export default async ({ req, res, log, error }) => {
         //create a collection for userId
         //create a document in users collection where the id is the userId of the user, it has a name, and a picture. Anyone can read on collection level, if deleted, delete collection and user
         //create a document to store the latest post of each user
-        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ Permission.delete(Role.user(userId)) ]);
+        const createUserDoc = await db.createDocument('db', 'users', userId, { name: "null", picture: "null"}, [ Permission.read(Role.any()), Permission.delete(Role.user(userId)) ]);
         log("New user created");
       
     }
