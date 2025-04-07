@@ -5,7 +5,6 @@ export default async ({ req, res, log, error }) => {
   if (req.path === "/") 
   {
     const userId = req.headers['x-appwrite-user-id'];
-    log(req.headers['x-appwrite-key']);
     const client = new Client()
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
@@ -19,6 +18,9 @@ export default async ({ req, res, log, error }) => {
     {
       sessionId = req.body.$id;
     }
+
+    log(userId);
+    log(sessionId);
     
     if(event === "users." + userId + ".create")
     {
