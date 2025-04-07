@@ -20,7 +20,7 @@ export default async ({ req, res, log, error }) => {
     
     if(event === "users." + userId + ".create")
     {
-        let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "https://www.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png"}, [ Permission.delete(Role.user(userId)) ]);
+        const createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "https://www.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png"}, [ Permission.delete(Role.user(userId)) ]);
     }
     else if(event === "users." + userId + ".sessions." + req.body.$id + ".create")
     {
@@ -38,9 +38,9 @@ export default async ({ req, res, log, error }) => {
       }
 
     }
-    else if(event === "databases.db.collections.users.documents." + req.body.$id + ".delete")
+    else if(event === "databases.db.collections.users.documents." + userId + ".delete")
     {
-        const deleteAccount = await users.delete(req.body.$id);
+        const deleteAccount = await users.delete(userId);
     }
     else
     {
