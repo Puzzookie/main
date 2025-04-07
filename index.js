@@ -40,7 +40,7 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event === "databases.db.collections.users.documents." + req.body.$id + ".delete")
     {
-        const deleteAccount = await users.delete(userId);
+        const deleteAccount = await users.delete(req.body.$id);
     }
     else
     {
