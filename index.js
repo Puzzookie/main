@@ -15,6 +15,8 @@ export default async ({ req, res, log, error }) => {
     const users = new Users(client);
     
     const event = req.headers['x-appwrite-event'];
+
+    log(req);
     
     if(event === "users." + userId + ".create")
     {
