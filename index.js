@@ -12,10 +12,6 @@ export default async ({ req, res, log, error }) => {
     
     const db = new Databases(client);
     const event = req.headers['x-appwrite-event'];
-
-    let docId = "unknown";
-
-    log(req);
     
     if(event === "users." + userId + ".create")
     {
@@ -37,7 +33,7 @@ export default async ({ req, res, log, error }) => {
       }
 
     }
-    else if(event === "databases.db.collections.users.documents." + docId + ".delete")
+    else if(event === "databases.db.collections.users.documents." + req.body.$id + ".delete")
     {
 
     }
