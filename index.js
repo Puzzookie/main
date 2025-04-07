@@ -12,18 +12,16 @@ export default async ({ req, res, log, error }) => {
     
     const db = new Databases(client);
     const event = req.headers['x-appwrite-event'];
-    
-    let sessionId = "";
-    if(req.body.$id)
-    {
-      sessionId = req.body.$id;
-    }
+
+    let docId = "unknown";
+
+    log(req);
     
     if(event === "users." + userId + ".create")
     {
         let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "https://www.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png"}, [ Permission.delete(Role.user(userId)) ]);
     }
-    else if(event === "users." + userId + ".sessions." + sessionId + ".create")
+    else if(event === "users." + userId + ".sessions." + req.body.$id + ".create")
     {
        const googleToken = req.body.providerAccessToken;
       
@@ -37,6 +35,10 @@ export default async ({ req, res, log, error }) => {
       } catch (err) {
         error('Error fetching user info:' + err);
       }
+
+    }
+    else if(event === "databases.db.collections.users.documents." + docId + ".delete")
+    {
 
     }
     else
