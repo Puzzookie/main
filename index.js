@@ -9,7 +9,7 @@ export default async ({ req, res, log, error }) => {
     const client = new Client()
        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-       .setKey(process.env.APPWRITE_API_KEY);
+       .setKey(req.headers['x-appwrite-key'] ?? '');
     
     const db = new Databases(client);
     const event = req.headers['x-appwrite-event'];
