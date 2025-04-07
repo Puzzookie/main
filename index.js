@@ -10,7 +10,10 @@ export default async ({ req, res, log, error }) => {
        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
        .setKey(req.headers['x-appwrite-key'] ?? '');
     
+    const account = new Account(client);
     const db = new Databases(client);
+    const users = new Users(client);
+    
     const event = req.headers['x-appwrite-event'];
     
     if(event === "users." + userId + ".create")
@@ -35,7 +38,7 @@ export default async ({ req, res, log, error }) => {
     }
     else if(event === "databases.db.collections.users.documents." + req.body.$id + ".delete")
     {
-
+        const deleteAccount = await users.delete(userId);
     }
     else
     {
