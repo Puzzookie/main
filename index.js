@@ -18,18 +18,13 @@ export default async ({ req, res, log, error }) => {
     {
       sessionId = req.body.$id;
     }
-
-    log(userId);
-    log(sessionId);
     
     if(event === "users." + userId + ".create")
     {
         let createUserDoc = await db.createDocument('db', 'users', userId, { name: req.body.name, picture: "https://www.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png"}, [ Permission.delete(Role.user(userId)) ]);
-      
     }
     else if(event === "users." + userId + ".sessions." + sessionId + ".create")
     {
-      
        const googleToken = req.body.providerAccessToken;
       
        try {
@@ -37,13 +32,8 @@ export default async ({ req, res, log, error }) => {
           method: 'GET'
         });
         const data = await response.json();
-        log(userId);
-        log(data.name);
-        log(data.picture.split("=").slice(0, -1).join("="));
         const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.delete(Role.user(userId)) ]);
-
-        //update document with their name, picture, userId that's in the users collection
-        
+  
       } catch (err) {
         error('Error fetching user info:' + err);
       }
