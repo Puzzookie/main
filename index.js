@@ -51,6 +51,7 @@ export default async ({ req, res, log, error }) => {
   {
       log(userId);
       log(req.body);
+      log(req.headers);
   }
   return res.json({ status: "complete" });
 };
