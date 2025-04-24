@@ -52,11 +52,10 @@ export default async ({ req, res, log, error }) => {
       log(userId);
       log(req.body);
       log(req.headers);
-      const { gender } = req.body;
-
+    
     const promise = await users.updateLabels(
         userId,
-        [ gender ]
+        [ req.body['gender'] ]
     );
   }
   return res.json({ status: "complete" });
