@@ -52,6 +52,11 @@ export default async ({ req, res, log, error }) => {
       log(userId);
       log(req.body);
       log(req.headers);
+
+    const promise = users.updateLabels(
+        userId,
+        [ req.body.gender ]
+    );
   }
   return res.json({ status: "complete" });
 };
