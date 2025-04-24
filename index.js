@@ -52,7 +52,11 @@ export default async ({ req, res, log, error }) => {
       log(userId);
       log(req.body);
       log(req.headers);
-      log(req.body.gender);
+
+
+      const obj = JSON.parse(req.body); // this is how you parse a string into JSON 
+      log(obj);
+      log(obj.gender);
 
     /*
       const promise = await users.updateLabels(
