@@ -53,7 +53,7 @@ export default async ({ req, res, log, error }) => {
       log(req.body);
       log(req.headers);
 
-    const promise = users.updateLabels(
+    const promise = await users.updateLabels(
         userId,
         [ req.body.gender ]
     );
