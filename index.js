@@ -53,9 +53,11 @@ export default async ({ req, res, log, error }) => {
       log(req.body);
       log(req.headers);
 
+      log(req.body.gender);
+
     const promise = await users.updateLabels(
         userId,
-        [ req.body.gender ]
+        [ req.body.gender.toString() ]
     );
   }
   return res.json({ status: "complete" });
