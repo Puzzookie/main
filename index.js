@@ -52,17 +52,14 @@ export default async ({ req, res, log, error }) => {
       log(userId);
       log(req.body);
       log(req.headers);
+      log(req.body.gender);
 
-     setTimeout(() => {
-        log(req.body.gender); // Should log "male"
-        log(req.body["gender"]);
-        const { gender } = req.body;
-        log(gender); // Should log "male"
-       const promise = await users.updateLabels(
-            userId,
-            [ gender ]
-        );
-      }, 0); // Use a timeout to wait for the req.body object to 
+    /*
+      const promise = await users.updateLabels(
+          userId,
+          [ gender ]
+      );
+      */
   }
   return res.json({ status: "complete" });
 };
