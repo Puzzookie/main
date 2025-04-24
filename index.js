@@ -54,16 +54,14 @@ export default async ({ req, res, log, error }) => {
       log(req.headers);
 
 
-      const obj = JSON.parse(req.body); // this is how you parse a string into JSON 
-      log(obj);
-      log(obj.gender);
+      const body = JSON.parse(req.body); // this is how you parse a string into JSON 
 
-    /*
+    
       const promise = await users.updateLabels(
           userId,
-          [ gender ]
+          [ body.gender ]
       );
-      */
+      
   }
   return res.json({ status: "complete" });
 };
