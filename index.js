@@ -65,20 +65,23 @@ export default async ({ req, res, log, error }) => {
       {
           const body = JSON.parse(req.body); 
     
-          const promise = await users.updateLabels(
-              userId,
-              [ body.gender ]
-          );
-        
           const getUserDoc = await db.getDocument('db', 'users', userId);
+
+          if(getUserDoc)
+          {
+              if(body.gender === "male")
+              {
+                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)) ]);
+              }
+              else
+              {
+                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)) ]);
+              }
     
-          if(body.gender === "male")
-          {
-            const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)) ]);
-          }
-          else
-          {
-            const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)) ]);
+              const promise = await users.updateLabels(
+                  userId,
+                  [ body.gender ]
+              );
           }
       }
   }
