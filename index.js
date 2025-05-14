@@ -32,8 +32,6 @@ export default async ({ req, res, log, error }) => {
           method: 'GET'
         });
 
-        const user = await users.get(userId);
-        log(user);
         const data = await response.json();
         const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.delete(Role.user(userId)) ]);
   
