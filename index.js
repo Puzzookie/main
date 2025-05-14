@@ -13,7 +13,8 @@ export default async ({ req, res, log, error }) => {
   const users = new Users(client);
   const db = new Databases(client);
 
-  
+  const user = await users.get(userId);
+
   if (req.path === "/") 
   { 
     const event = req.headers['x-appwrite-event'];
@@ -33,7 +34,7 @@ export default async ({ req, res, log, error }) => {
         });
 
         const data = await response.json();
-        const user = await users.get(userId);
+         
         if(user.labels.length === 0)
         {
           const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.read(Role.user(userId)) ]);
@@ -57,41 +58,29 @@ export default async ({ req, res, log, error }) => {
       }
 
     }
-    else if(event === "databases.db.collections.users.documents." + userId + ".delete")
-    {
-        const deleteAccount = await users.delete(userId);
-    }
-    else
-    {
-        //Gemini implementation to check to see if the post is good
-    }
   }
   else if(req.path === "/setup")
   {
-      log(userId);
-      log(req.body);
-      log(req.headers);
-
-
-      const body = JSON.parse(req.body); // this is how you parse a string into JSON 
-
+      if(user.labels.length === 0)
+      {
+          const body = JSON.parse(req.body); 
     
-      const promise = await users.updateLabels(
-          userId,
-          [ body.gender ]
-      );
-      const getUserDoc = await db.getDocument('db', 'users', userId);
-
-      if(body.gender === "male")
-      {
-        const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)) ]);
+          const promise = await users.updateLabels(
+              userId,
+              [ body.gender ]
+          );
+        
+          const getUserDoc = await db.getDocument('db', 'users', userId);
+    
+          if(body.gender === "male")
+          {
+            const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)) ]);
+          }
+          else
+          {
+            const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)) ]);
+          }
       }
-      else
-      {
-        const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)) ]);
-      }
-
-      
   }
   return res.json({ status: "complete" });
 };
