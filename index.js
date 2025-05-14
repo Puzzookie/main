@@ -42,11 +42,11 @@ export default async ({ req, res, log, error }) => {
         {
             if(user.labels.includes("male"))
             {
-                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")) ]);
+                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.read(Role.label("female")) ]);
             }
             else
             {
-                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")) ]);
+                const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.read(Role.label("male")) ]);
             }
         }
   
