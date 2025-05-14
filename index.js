@@ -96,9 +96,33 @@ export default async ({ req, res, log, error }) => {
           }
       }
   }
-  else if(req.path === "/likes")
+  else if(req.path === "/delete")
   {
-
+      try
+      {
+        const getUserDoc = await db.getDocument('db', 'users', userId);
+        const deleteUserDoc = await db.deleteDocument('db', 'users', userId);
+      }
+      catch(err)
+      {
+          error(err);
+      }
+      finally
+      {
+        try
+        {
+          const getProfileDoc = await db.getDocument('db', 'profiles', userId);
+          const deleteProfileDoc = await db.deleteDocument('db', 'profiles', userId);
+        }
+        catch(err2)
+        {
+          error(err2);
+        }
+        finally
+        {
+          const deleteAccount = await users.delete(userId);
+        }
+      }
   }
   return res.json({ status: "complete" });
 };
