@@ -26,14 +26,20 @@ export default async ({ req, res, log, error }) => {
     {
        const googleToken = req.body.providerAccessToken;
       
-       try {
+       try 
+       {
         const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${googleToken}`, {
           method: 'GET'
         });
+
+        const user = await users.get(userId);
+        log(user);
         const data = await response.json();
         const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: data.name, picture: data.picture.split("=").slice(0, -1).join("=") }, [ Permission.delete(Role.user(userId)) ]);
   
-      } catch (err) {
+      }
+      catch (err) 
+      {
         error('Error fetching user info:' + err);
       }
 
