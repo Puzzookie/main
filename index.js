@@ -70,19 +70,29 @@ export default async ({ req, res, log, error }) => {
 
           if(getUserDoc)
           {
+            try
+            {
               if(body.gender === "male")
               {
                 const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)) ]);
+                const createProfileDoc = await db.createDocument('db', 'profiles', userId, {bio: body.bio, height: body.height, zip: body.zip, birthYear: body.birthYear}, [ Permission.read(Role.label("female")), Permission.read(Role.user(userId)), Permission.update(Role.user(userId)) ]);
+
               }
               else
               {
                 const updateUserDoc = await db.updateDocument('db', 'users', userId, { name: getUserDoc.name, picture: getUserDoc.picture }, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)) ]);
+                const createProfileDoc = await db.createDocument('db', 'profiles', userId, {bio: body.bio, height: body.height, zip: body.zip, birthYear: body.birthYear}, [ Permission.read(Role.label("male")), Permission.read(Role.user(userId)), Permission.update(Role.user(userId)) ]);
               }
     
               const promise = await users.updateLabels(
                   userId,
                   [ body.gender ]
               );
+            }
+            catch(err)
+            {
+                error(err);
+            }
           }
       }
   }
