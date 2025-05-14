@@ -64,6 +64,7 @@ export default async ({ req, res, log, error }) => {
       if(user.labels.length === 0)
       {
           const body = JSON.parse(req.body); 
+          log(body);
     
           const getUserDoc = await db.getDocument('db', 'users', userId);
 
@@ -84,6 +85,10 @@ export default async ({ req, res, log, error }) => {
               );
           }
       }
+  }
+  else if(req.path === "/likes")
+  {
+
   }
   return res.json({ status: "complete" });
 };
