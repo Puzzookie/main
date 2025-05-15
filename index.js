@@ -98,30 +98,22 @@ export default async ({ req, res, log, error }) => {
   }
   else if(req.path === "/delete")
   {
-      try
-      {
-        const getUserDoc = await db.getDocument('db', 'users', userId);
-        const deleteUserDoc = await db.deleteDocument('db', 'users', userId);
+      try {
+        await db.deleteDocument('db', 'users', userId);
+      } catch (err) {
+        error('Error deleting user document:', err);
       }
-      catch(err)
-      {
-          error(err);
+    
+      try {
+        await db.deleteDocument('db', 'profiles', userId);
+      } catch (err) {
+        error('Error deleting profile document:', err);
       }
-      finally
-      {
-        try
-        {
-          const getProfileDoc = await db.getDocument('db', 'profiles', userId);
-          const deleteProfileDoc = await db.deleteDocument('db', 'profiles', userId);
-        }
-        catch(err2)
-        {
-          error(err2);
-        }
-        finally
-        {
-          const deleteAccount = await users.delete(userId);
-        }
+    
+      try {
+        await users.delete(userId);
+      } catch (err) {
+        error('Error deleting user account:', err);
       }
   }
   return res.json({ status: "complete" });
